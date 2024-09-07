@@ -31,7 +31,7 @@ jobs:
         run: repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
 
       - name: Generate SHA checksum
-        run: shasum target/x86_64-unknown-linux-musl/release/ic-gateway > ic-gateway.shasum
+        run: shasum target/x86_64-unknown-linux-musl/release/peer-pki-root > peer-pki-root.shasum
 
       - name: Remove build files
         run: rm -rf target
@@ -40,10 +40,10 @@ jobs:
         run: repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
 
       - name: Check SHA checksum
-        run: shasum -c ic-gateway.shasum
+        run: shasum -c peer-pki-root.shasum
 
       - name: Strip
-        run: /usr/bin/strip target/x86_64-unknown-linux-musl/release/ic-gateway
+        run: /usr/bin/strip target/x86_64-unknown-linux-musl/release/peer-pki-root
 
       - name: Create package root
         run: |
@@ -52,24 +52,24 @@ jobs:
           mkdir -p .debpkg/etc/default
           mkdir -p .debpkg/DEBIAN
 
-          cp target/x86_64-unknown-linux-musl/release/ic-gateway .debpkg/usr/sbin
-          cp deploy/ic-gateway.service .debpkg/etc/systemd/system
-          cp deploy/ic-gateway.env .debpkg/etc/default/ic-gateway
+          cp target/x86_64-unknown-linux-musl/release/peer-pki-root .debpkg/usr/sbin
+          cp deploy/peer-pki-root.service .debpkg/etc/systemd/system
+          cp deploy/peer-pki-root.env .debpkg/etc/default/peer-pki-root
 
           chmod -R g-s .debpkg
 
       - uses: jiro4989/build-deb-action@1bd8ed1458d3dc331f62bf50468cce9b610fd0af
         with:
-          package: ic-gateway
+          package: peer-pki-root
           package_root: .debpkg
-          maintainer: "DFINITY Boundary Nodes Team"
+          maintainer: "everyone"
           version: ${{ github.ref }}
           arch: amd64
-          desc: "IC-Gateway Service"
-          homepage: "https://github.com/dfinity/ic-gateway"
+          desc: "peer-pki-root Service"
+          homepage: "https://github.com/dfinity/peer-pki-root"
 
       - uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5
         with:
           makeLatest: true
-          artifacts: "target/x86_64-unknown-linux-musl/release/ic-gateway,*.deb"
-          body: "IC-Gateway release"
+          artifacts: "target/x86_64-unknown-linux-musl/release/peer-pki-root,*.deb"
+          body: "peer-pki-root release"

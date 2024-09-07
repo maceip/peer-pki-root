@@ -1,5 +1,5 @@
 [package]
-name = "ic-gateway"
+name = "peer-pki-root"
 version = "0.1.0"
 description = "HTTP-to-IC gateway"
 edition = "2021"
