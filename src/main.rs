@@ -12,13 +12,13 @@ use tracing::warn;
 
 use crate::cli::Cli;
 
+mod ccip;
 mod cli;
 mod core;
-mod log;
-mod metrics;
-mod ccip;
 mod database;
 mod gateway;
+mod log;
+mod metrics;
 
 mod multicoin;
 mod registrar;

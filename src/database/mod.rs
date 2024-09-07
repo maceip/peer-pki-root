@@ -143,7 +143,13 @@ impl Database {
             })
     }
 
-    pub async fn get_all(&self, node: &[u8]) -> (HashMap<String, Option<String>>, HashMap<String, Option<String>>) {
+    pub async fn get_all(
+        &self,
+        node: &[u8],
+    ) -> (
+        HashMap<String, Option<String>>,
+        HashMap<String, Option<String>>,
+    ) {
         let x = self
             .client
             .query_one(
